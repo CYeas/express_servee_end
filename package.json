@@ -1,0 +1,16 @@
+{
+  "name": "express_server_end",
+  "version": "1.0.0",
+  "description": "the express edition server end of iustu front-end  team's blog ",
+  "main": "app.js",
+  "dependencies": {
+    "express": "^4.15.2",
+    "markdown": "^0.5.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "cyea",
+  "license": "ISC"
+}
