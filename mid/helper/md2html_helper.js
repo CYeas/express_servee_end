@@ -13,3 +13,5 @@ function md2html(markdownText, callback) {
   }
   return htmlText;
 }
+
+module.exports = md2html;
