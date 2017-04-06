@@ -1,10 +1,13 @@
 let express = require('express');
-let md = require('markdown').markdown;
 let router = require('./router/root.js');
 
+let init = require('./config/initialize.js');
 let app = express();
+init().then(function() {
+  console.log(init.config);
+});
 app.use(router);
 
-app.listen(3000, function() {
-    console.log('listen on 3000');
-});
+// app.listen(3000, function() {
+//     console.log('listen on 3000');
+// });
