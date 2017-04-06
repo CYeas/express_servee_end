@@ -1,11 +1,11 @@
 let fileReader = require('./helper/read_file_helper');
-let markdown2Html = require('./helper/md2html_helper.2Html');
+let markdown2Html = require('./helper/md2html_helper');
 
 module.exports = function(configFile) {
     let config = configFile;
 // get index infomation and send it;
     function getIndex(req, res, next) {
-        let files = fileReader.readIndex(req.path);
+        let files = fileReader.readIndex(config.blogPath + req.path);
         res.send(files.map(function(e) {
             return (req.path + e);
         }));

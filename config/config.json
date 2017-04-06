@@ -1,3 +1,4 @@
 {
-  "test": "hello"
+  "template": "<p>just for test</p>",
+  "blogPath": "../blog"
 }

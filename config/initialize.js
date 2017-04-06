@@ -11,22 +11,22 @@ function readConfig(resolve, reject) {
       reject(err);
     } else {
       config = JSON.parse(data);
-      resolve(config);
+      resolve();
     }
+  });
+}
+// do some compute for config
+function computeConfig() {
+  return new Promise(function(resolve, reject){
+    config.blogPath = __dirname +'\\' + config.blogPath;
+    resolve(config);
   });
 }
 
 module.exports = function () {
-  new Promise(readConfig)
-    .then(function() {
-      return new Promise(function(resolve, reject) {
-        resolve(null);
-        console.log(config);
-      });
-    })
+  return new Promise(readConfig)
+    .then(computeConfig)
     .catch(function(err) {
-      return new Promise(function(resolve, reject) {
-        reject(err);
-      });
+      console.err(err);
     });
 };

@@ -1,5 +1,5 @@
 let express = require('express');
-let mid = require('./../mid/middle_ware');
+let mid = new require('./../mid/middle_ware')();
 
 let router = express.Router();
 
@@ -8,6 +8,9 @@ router.use(function(req, res, next) {
     next();
 })
 
-router.get('/', mid.getIndex(req, res, next));
+router.get('/', function(req, res, next) {
+  console.log(mid);
+  mid.getIndex(req, res, next);
+});
 
 module.exports = router;
