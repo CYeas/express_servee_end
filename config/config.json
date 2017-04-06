@@ -1,4 +1,5 @@
 {
-  "template": "<p>just for test</p>",
-  "blogPath": "../blog"
+  "blogPath": "../blog",
+  "index": "/",
+  "apiEdition": false
 }

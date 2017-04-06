@@ -3,7 +3,7 @@ let path = require('path');
 
 let CONFIGPATH = __dirname + '/config.json';
 //attribute
-let config = {};
+global.config = {};
 // read config file and translate into json
 function readConfig(resolve, reject) {
   fs.readFile(CONFIGPATH, {flag: 'r', encoding: 'utf8'}, function(err, data) {
@@ -19,7 +19,7 @@ function readConfig(resolve, reject) {
 function computeConfig() {
   return new Promise(function(resolve, reject){
     config.blogPath = __dirname +'\\' + config.blogPath;
-    resolve(config);
+    resolve();
   });
 }
 

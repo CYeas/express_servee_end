@@ -1,19 +1,24 @@
 let fs = require('fs');
 
 module.exports = function() {
+  let fileReader = {};
   /**
    * read blog index infomation
    * @param  {String} path path of folder
    * @return {Array}      name of files under the folder
    */
-    function readIndex(path) {
-        fs.readdir(path, function(err, files) {
-            if (err) {
-                return console.err(err);
-            }
-            return files;
-        });
-    }
+  fileReader.readIndex = function(path, callback) {
+    fs.readdir(path, function(err, files) {
+      if (err) {
+        console.error(err);
+      }
+      if (callback) {
+        callback(files, err);
+      }
+      return files;
+    });
+  }
+
   /**
    * readFile
    * @param  {String}   filePath
@@ -21,15 +26,16 @@ module.exports = function() {
    * @return {String}            file content
    */
 
-    function readFile(filePath, callback) {
-        fs.readFile(filePath, {flag: 'r', encoding: 'utf8'}, function(err, data) {
-            if (err) {
-                return console.err(err);
-            }
-            if (callback) {
-                callback(data);
-            }
-            return data;
-        });
-    }
-}
+  fileReader.readFile = function(filePath, callback) {
+    fs.readFile(filePath, {flag: 'r', encoding: 'utf8'}, function(err, data) {
+      if (err) {
+        console.error(err);
+      }
+      if (callback) {
+        callback(data, err);
+      }
+      return data;
+    });
+  };
+  return fileReader;
+};
