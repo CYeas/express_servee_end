@@ -1,5 +1,7 @@
 let fileReader = require('./helper/read_file_helper')();
 let markdown2Html = require('./helper/md2html_helper');
+let fileWrite = require('./helper/write_file_helper');
+let dataBaseHelper = require('./helper/sqlite_db_helper.js');
 let fs = require('fs');
 
 module.exports = function() {
@@ -39,7 +41,7 @@ module.exports = function() {
   }
 
     // get a blog and return it
-  middleWare.readBlog = function (req, res, next) {
+  middleWare.readBlog = function(req, res, next) {
     let data = fileReader.readFile(config.blogPath + req.path + '.md', function(data, err) {
       if (err) {
         let response = {"status": 1, "err": err}
@@ -64,5 +66,21 @@ module.exports = function() {
       next();
     });
   };
+
+    middleWare.writeBlog = function(req, res, next) {
+      fileWrite.mkfolder(req.body.folder, function(err) {
+        err ? console.error(err) : function() {};
+        fileWrite.writeBlog(req.body.title, req.body.text, function(err) {
+          err ? console.error(err) : function() {};
+        });
+      });
+      dataBaseHelper.storeBlog(req.body.title, req.body.folder, req.body.tagName, req.body.userId, function(err) {
+        err ? console.error(err) : function() {};
+      });
+    }
+
+    middleWare.login = function(req, res, next) {
+
+    }
   return middleWare;
 };

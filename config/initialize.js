@@ -18,7 +18,7 @@ function readConfig(resolve, reject) {
 // do some compute for config
 function computeConfig() {
   return new Promise(function(resolve, reject){
-    config.blogPath = __dirname +'\\' + config.blogPath;
+    config.blogPath = __dirname +'/' + config.blogPath;
     resolve();
   });
 }
