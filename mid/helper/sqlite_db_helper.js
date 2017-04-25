@@ -1,5 +1,4 @@
 let sqlite3 = require('sqlite3').verbose();
-let db = new sqlite3.Database('../../db/blog_db.db');
 /**
  * signup
  * @param  {string}   userName
@@ -8,6 +7,7 @@ let db = new sqlite3.Database('../../db/blog_db.db');
  * @return
  */
 function signUp(userName, userPassword, callback) {
+  let db = new sqlite3.Database(config.dbPath);
   db.serialize(function() {
     db.run("INSERT INTO User VALUES (?, ?)", [userName, userPassword], function(err) {
       callback ? callback(err) : function() {};
@@ -16,7 +16,21 @@ function signUp(userName, userPassword, callback) {
   db.close();
 }
 
+function logIn(userName, userPassword, callback) {
+  let db = new sqlite3.Database(config.dbPath);
+  let param = [userName, userPassword];
+  db.serialize(function() {
+    db.get("SELECT userName FROM User\
+            WHERE userName = ? AND password = ?",
+      param, function(err, row) {
+        callback(err, row);
+      });
+  });
+  db.close();
+}
+
 function getBlogsIndexByTime(page, everPageSum, callback) {
+  let db = new sqlite3.Database(config.dbPath);
   let offset = (page - 1) * everPageSum + 1;
   db.serialize(function() {
     db.all("SELECT title, folder, userName,\
@@ -35,7 +49,8 @@ function getBlogsIndexByTime(page, everPageSum, callback) {
   db.close();
 }
 
-function getBlogsIndexByFolder(folderName. page, everPageSum, callback) {
+function getBlogsIndexByFolder(folderName, page, everPageSum, callback) {
+  let db = new sqlite3.Database(config.dbPath);
   let offset = (page - 1) * everPageSum + 1;
   let param = [folderName, offset, everPageSum]
   db.serialize(function() {
@@ -50,10 +65,11 @@ function getBlogsIndexByFolder(folderName. page, everPageSum, callback) {
             LIMIT ?, ?", param, function(err, row) {
               callback(err, row);
             })
-  }
+  });
 }
 
 function getBlogsIndexByTag(tagName, page, everPageSum, callback) {
+  let db = new sqlite3.Database(config.dbPath);
   let offset = (page - 1) * everPageSum + 1;
   let param = [tagName, offset, everPageSum]
   db.serialize(function() {
@@ -67,13 +83,14 @@ function getBlogsIndexByTag(tagName, page, everPageSum, callback) {
             blogMapTag.tagId = Tag.rowid\
             Tag.tagName = ?\
             ORDER BY Blog.time DESC\
-            LIMIT ?, ?", ,function(err, row) {
+            LIMIT ?, ?", param, function(err, row) {
               callback(err, row);
             })
-  }
+  });
 }
 
 function storeBlog(title, folder, tagName, userId, callback) {
+  let db = new sqlite3.Database(config.dbPath);
   let newBlog = [title, folder, userId];
   db.serialize(function() {
     db.run("INSERT INTO Blog VALUES(?, ?, ?, strftime('%s', 'now'))", newBlog, function(err) {

@@ -10,7 +10,10 @@ init().then(function(config) {
     cookie: {maxAge: 24 * 60 * 60 * 1000}
   }));
   app.use(router);
+  app.use(express.static(__dirname + '/public'));
   app.listen(3000, function() {
       console.log('listen on 3000');
   });
+}).catch(function(err){
+    console.log(err);
 });

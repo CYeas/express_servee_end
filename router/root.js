@@ -6,9 +6,14 @@ let router = express.Router();
 
 router.use(bodyParser.json());
 
-router.get(config.index, function(req, res, next) {
+router.get(config.root, function(req, res, next) {
   mid.getIndexPage(req, res, next);
 });
+
+
+router.post(config.root + 'signUp', function(req, res, next) {
+  mid.signUp(req, res, next);
+})
 
 router.get(/\/.+/, function(req, res, next) {
   mid.readBlog(req, res, next);

@@ -1,5 +1,5 @@
 {
   "blogPath": "../blog",
-  "index": "/",
+  "root": "/",
   "apiEdition": false
 }
