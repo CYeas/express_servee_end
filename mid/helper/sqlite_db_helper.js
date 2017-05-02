@@ -42,8 +42,8 @@ function getBlogsIndexByTime(page, everPageSum, callback) {
             ORDER BY Blog.time DESC\
             LIMIT ?, ?",
             [offset, everPageSum],
-            function(err, row) {
-              callback(err, row);
+            function(err, rows) {
+              callback(err, rows);
             });
   });
   db.close();

@@ -19,8 +19,8 @@ router.get(/\/.+/, function(req, res, next) {
   mid.readBlog(req, res, next);
 });
 
-router.post(config.index, function(req, res, next) {
-  mid.getIndex(req, res, next);
-})
+//router.post(config.index, function(req, res, next) {
+  //mid.getIndex(req, res, next);
+//})
 
 module.exports = router;

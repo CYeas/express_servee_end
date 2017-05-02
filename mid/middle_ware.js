@@ -66,21 +66,52 @@ module.exports = function() {
     });
   };
 
-    //middleWare.writeBlog = function(req, res, next) {
-      //fileWrite.mkfolder(req.body.folder, function(err) {
-        //err ? console.error(err) : function() {};
-        //fileWrite.writeBlog(req.body.title, req.body.text, function(err) {
-          //err ? console.error(err) : function() {};
-        //});
-      //});
-      //dataBaseHelper.storeBlog(req.body.title, req.body.folder, req.body.tagName, req.body.userId, function(err) {
-        //err ? console.error(err) : function() {};
-      //});
-    //}
+    middleWare.writeBlog = function(req, res, next) {
+      result = {};
+      fileWrite.mkfolder(req.body.folder, function(err) {
+          if (err) {
+              result.error = err;
+              result.status = 1;
+              res.send(result);
+          } else {
+            fileWrite.writeBlog(req.body.title, req.body.text, function(err) {
+              if (err) {
+                result.error = err;
+                result.status = 1;
+                res.send(result);
+              } else {
+                dataBaseHelper.storeBlog(req.body.title, req.body.folder, req.body.tagName, req.body.userId, function(err) {
+                  if (err) {
+                    result.error = err;
+                    result.status = 1;
+                  } else {
+                    result.error = '';
+                    result.status = 0;
+                  }
+                  res.send(result);
+                })
+              };
+            });
+          }
+      });
+    }
 
-    //middleWare.login = function(req, res, next) {
-
-    //}
+    middleWare.getIndexPage = function(req, res, next) {
+        let result = {};
+        dataBaseHelper.getBlogIndexByTime(req.body.page, req.body.page_sum, function(err, rows) {
+            if (err) {
+                result.error = err;
+                result.status = 1;
+                result.index = null;
+            } else {
+                result.error = '';
+                result.status = 0;
+                result.index = rows;
+            }
+            res.send(result);
+            next();
+        });
+    }
 
     middleWare.signUp = function(req, res, next) {
         let result = {};
